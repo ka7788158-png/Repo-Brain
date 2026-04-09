@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from langchain_community.document_loaders.generic import GenericLoader
 from langchain_community.document_loaders.parsers import LanguageParser
 from langchain_text_splitters import Language, RecursiveCharacterTextSplitter
-from langchain_openai import OpenAIEmbeddings 
+from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
 
 # 1. Setup
@@ -37,7 +37,7 @@ def build_database():
 
     # embedding and storing
     print("🧠 Building Vector Database (this might take a few seconds)...")
-    embeddings = OpenAIEmbeddings()
+    embeddings = HuggingFaceEmbeddings ()
     # Create and persist the database locally
     Chroma.from_documents(
         documents=chunks,
