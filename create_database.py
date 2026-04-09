@@ -26,7 +26,7 @@ def build_database():
 
     # syntax aware splitting 
     print("splitting code into chunks ...")
-    python_splitter = RecursiveCharacterTextSplitter(
+    python_splitter = RecursiveCharacterTextSplitter.from_language(
         language = Language.PYTHON,
         chunk_size = 1000,
         chunk_overlap = 200
