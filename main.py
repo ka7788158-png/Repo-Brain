@@ -45,3 +45,29 @@ print("✅ System Ready! Let's talk about your code.")
 print("--- Type '0' to exit ---")
 
 # THE CHAT LOOP
+while True:
+    query = input("/n You: ")
+
+    if query == 0:
+        print("Good Bye !")
+        break
+
+    # Step A: Retrieve relevant code chunks
+    retrieved_docs = retriever.invoke(query)
+
+    # Step B: Combine the chunks into one big context string
+    context_text = "\n\n".join([doc.page_content for doc in retrieved_docs])
+
+    # Step C: Format the prompt with context and user question
+    formatted_prompt = ChatPromptTemplate.invoke({
+        "context": context_text,
+        "question": query
+    })
+
+    # Step D: Get the answer from the LLM
+    print("🤖 RepoBrain is thinking...")
+    response = llm.invoke(formatted_prompt)
+    
+    print("\n🤖 RepoBrain:")
+    print(response.content)
+    
