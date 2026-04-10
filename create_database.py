@@ -18,7 +18,9 @@ def build_database():
     loader = GenericLoader.from_filesystem(
         repo_path,
         glob="**/*",
-        suffixes=[".py"],
+        suffixes=[".py", ".js", ".ts", ".jsx", ".tsx", ".html", ".css", ".md", ".cpp", ".java", ".c", ".s", ".rst",
+                  ".lua"],
+        exclude=["**/node_modules/**", "**/.git/**", "**/venv/**", "**/.env"],
         parser=LanguageParser(language=Language.PYTHON, parser_threshold=500)
     )
     documents = loader.load()
@@ -26,13 +28,12 @@ def build_database():
 
     # syntax aware splitting 
     print("splitting code into chunks ...")
-    python_splitter = RecursiveCharacterTextSplitter.from_language(
-        language = Language.PYTHON,
+    universal_splitter = RecursiveCharacterTextSplitter.from_language(
         chunk_size = 1000,
         chunk_overlap = 200
     )
 
-    chunks = python_splitter.split_documents(documents)
+    chunks = universal_splitter.split_documents(documents)
     print(f"🧩 Created {len(chunks)} chunks.")
 
     # embedding and storing
