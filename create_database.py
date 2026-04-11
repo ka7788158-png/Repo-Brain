@@ -13,7 +13,7 @@ from langchain_community.vectorstores import Chroma
 load_dotenv()
 DB_PATH = "./repo_brain_db"
 
-def build_database(source_input, hf_api_key):
+def build_database(source_input):
     """
     Takes either a local folder path or a GitHub URL and builds the Chroma DB.
     """
