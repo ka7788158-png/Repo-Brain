@@ -58,10 +58,8 @@ def load_brain(api_key):
     db_path = "./repo_brain_db"
     
     # Initialize Hugging Face Embeddings with the user's key
-    embeddings = HuggingFaceInferenceAPIEmbeddings(
-        api_key=api_key, 
-        model_name="sentence-transformers/all-MiniLM-L6-v2"
-    )
+    embeddings = HuggingFaceEmbeddings ()
+
     
     vectorstore = Chroma(persist_directory=db_path, embedding_function=embeddings)
     
