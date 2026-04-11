@@ -39,7 +39,7 @@ with st.sidebar:
             with st.spinner("Cloning, chunking, and embedding... This takes a minute for large repos!"):
                 try:
                     # Trigger the function from create_database.py AND pass the key
-                    build_database(source_input, user_api_key)
+                    build_database(source_input)
                     st.success("✅ Database Built Successfully!")
                     
                     # Clear the cache so Streamlit loads the NEW database, not the old one
