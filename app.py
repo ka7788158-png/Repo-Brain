@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 
 # Swapped OpenAI for HuggingFace based on your request for free embeddings!
-from langchain_community.embeddings import HuggingFaceInferenceAPIEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain_mistralai import ChatMistralAI
 from langchain_core.prompts import ChatPromptTemplate
