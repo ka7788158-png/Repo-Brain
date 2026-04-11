@@ -4,7 +4,6 @@ import shutil
 from git import Repo 
 from dotenv import load_dotenv
 
-# 👇 NEW BULLETPROOF IMPORTS
 from langchain_community.document_loaders import DirectoryLoader, TextLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.embeddings import HuggingFaceInferenceAPIEmbeddings 
@@ -13,7 +12,7 @@ from langchain_community.vectorstores import Chroma
 load_dotenv()
 DB_PATH = "./repo_brain_db"
 
-def build_database(source_input):
+def build_database(source_input, hf_api_key):
     """
     Takes either a local folder path or a GitHub URL and builds the Chroma DB.
     """
@@ -32,23 +31,28 @@ def build_database(source_input):
 
     print(f"📂 Scanning codebase at: {repo_path}...")
     
-    # 👇 2. BULLETPROOF LOADER LOGIC
+    # 2. BULLETPROOF LOADER LOGIC
     documents = []
     # Explicitly list the extensions we care about
     allowed_extensions = ["*.py", "*.js", "*.ts", "*.jsx", "*.tsx", "*.cpp", "*.c", "*.h", "*.hpp", "*.java"]
     
     for ext in allowed_extensions:
-        # DirectoryLoader specifically targets the glob pattern and forces TextLoader
         loader = DirectoryLoader(
             repo_path, 
             glob=f"**/{ext}", 
             loader_cls=TextLoader, 
-            loader_kwargs={'autodetect_encoding': True} # Prevents Windows/UTF-8 crashes!
+            loader_kwargs={'autodetect_encoding': True},
+            recursive=True,       # 👉 FIX 1: Forces it to dig into every single subfolder
+            silent_errors=True    # 👉 FIX 2: Ignores broken/unreadable files without crashing the app!
         )
         # Add the found documents to our master list
         documents.extend(loader.load())
         
     print(f"✅ Successfully loaded {len(documents)} distinct code files.")
+
+    # Prevent crashing if the repo has NO matching files
+    if len(documents) == 0:
+        raise ValueError("No valid code files found in this repository. Ensure it contains standard code extensions.")
 
     # 3. Universal Splitting
     print("🔪 Splitting code into chunks...")
