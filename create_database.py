@@ -38,7 +38,7 @@ def build_database(source_input):
         repo_path,
         glob="**/*",
         suffixes=[".py", ".js", ".ts", ".jsx", ".tsx", ".html", ".css", ".md", ".cpp", ".java", ".c", ".s", ".rst",
-                  ".lua"],
+                  ".lua", ".h"],
         # exclude=["**/node_modules/**", "**/.git/**", "**/venv/**", "**/.env"]
     )
 
