@@ -39,7 +39,7 @@ def build_database(source_input):
         glob="**/*",
         suffixes=[".py", ".js", ".ts", ".jsx", ".tsx", ".html", ".css", ".md", ".cpp", ".java", ".c", ".s", ".rst",
                   ".lua"],
-        exclude=["**/node_modules/**", "**/.git/**", "**/venv/**", "**/.env"]
+        # exclude=["**/node_modules/**", "**/.git/**", "**/venv/**", "**/.env"]
     )
 
     documents = loader.load()
